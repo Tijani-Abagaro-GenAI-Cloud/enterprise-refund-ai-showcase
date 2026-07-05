@@ -289,8 +289,12 @@ Operational Excellence
 CloudWatch dashboards, alarms, analytics tables, and SNS notifications provide visibility into system health and operational events.
 ________________________________________
 
+
 # 4. Project Structure
+
 Unlike a simple proof-of-concept, the repository is organized into independent infrastructure, application, automation, and operational components.
+
+```text
 enterprise-refund-ai/
 │
 ├── .github/
@@ -304,50 +308,35 @@ enterprise-refund-ai/
 │   │   ├── ask/
 │   │   │   └── lambda_function.py
 │   │   └── ingest/
-│   │       └── lambda_function.py
+│   │       ├── lambda_function.py
+│   │       └── requirements.txt
 │   │
-│   └── requirements.txt
-│
-├── frontend/
-│
-├── scripts/
-│   ├── bootstrap_opensearch_index.py
-│   └── bootstrap_requirements.txt
+│   ├── frontend/
+│   └── scripts/
+│       ├── bootstrap_opensearch_index.py
+│       └── bootstrap_requirements.txt
 │
 ├── terraform/
-│   ├── admin_lambda.zip
-│   ├── ask.zip
-│   ├── ingest.zip
-│   ├── analytics_dynamodb.tf
 │   ├── apigateway.tf
 │   ├── backend.tf
-│   ├── cloudwatch_alarms.tf
-│   ├── cloudwatch_dashboard.tf
 │   ├── cloudwatch.tf
-│   ├── dynamodb_chunk.tf
 │   ├── dynamodb.tf
-│   ├── frontend_hosting.tf
 │   ├── iam.tf
 │   ├── lambda_admin.tf
 │   ├── lambda_ask.tf
 │   ├── lambda_ingest.tf
-│   ├── locals.tf
 │   ├── opensearch.tf
-│   ├── outputs.tf
 │   ├── providers.tf
-│   ├── s3_notifications.tf
-│   ├── s3.tf
-│   ├── sns.tf
 │   ├── variables.tf
 │   └── versions.tf
 │
 ├── architecture/
-│
 ├── screenshots/
-│
 └── README.md
+```
+
 ________________________________________
-Repository Organization
+### Repository Organization
 The repository is organized into four major solution domains.
 Backend Services
 The backend contains three independent AWS Lambda functions, each with a clearly defined responsibility.
@@ -1200,7 +1189,9 @@ Operations
 **GitHub:** https://github.com/Tijani-Abagaro-GenAI-Cloud?tab=repositories
 
 **LinkedIn:** https://www.linkedin.com/in/tijani-abagaro-7b0975202/
+
 **Badges:** https://www.credly.com/users/tijani-abagaro/badges/credly
+
 **youtube** coming soon
 
 ---
