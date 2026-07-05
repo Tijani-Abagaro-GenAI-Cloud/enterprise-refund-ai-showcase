@@ -16,7 +16,7 @@
 
 ### Enterprise Architecture • Retrieval-Augmented Generation • Amazon Bedrock • OpenSearch Serverless • Terraform • GitHub Actions • AWS Lambda • Serverless AI
 
-![AWS Runtime Architecture](architecture/aws-runtime-architecture.png)
+![AWS Runtime Architecture](architecture/enterprise-refund-ai-aws-runtime-architecture.png)
 
 **Figure 0. Enterprise Refund AI Assistant – AWS Runtime Architecture**
 
