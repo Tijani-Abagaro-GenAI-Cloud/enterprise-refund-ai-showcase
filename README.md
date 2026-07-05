@@ -73,14 +73,8 @@ An enterprise-grade, serverless Retrieval-Augmented Generation (RAG) platform th
 16. Future Enhancements
 17. Demonstration
 18. Conclusion
-
-
-SECTION 1
-Enterprise Refund AI Assistant
-Enterprise-Grade Retrieval-Augmented Generation (RAG) Platform on AWS
-An enterprise AI assistant built on Amazon Bedrock, OpenSearch Serverless, AWS Lambda, and Terraform that delivers grounded, policy-aware responses using Retrieval-Augmented Generation (RAG). The platform automatically ingests enterprise documents, generates vector embeddings, performs semantic search, and produces accurate responses through Amazon Nova Lite.
 ________________________________________
-Executive Summary
+# 1. Executive Summary
 Enterprise organizations maintain thousands of policy documents, operating procedures, knowledge articles, and compliance manuals. Traditional AI assistants often generate responses based solely on the knowledge contained within the underlying foundation model, increasing the risk of hallucinations and outdated answers.
 This project demonstrates how to build a production-style enterprise AI platform that combines Retrieval-Augmented Generation (RAG) with modern AWS serverless services to deliver accurate, traceable, and context-aware responses grounded in organizational documents.
 The solution automatically ingests enterprise policy documents uploaded to Amazon S3, extracts and chunks document content, generates vector embeddings using Amazon Bedrock Titan Text Embeddings V2, stores embeddings in Amazon OpenSearch Serverless, and retrieves the most relevant context at query time. The retrieved context is combined with the user's question and submitted to Amazon Bedrock (Amazon Nova Lite) to generate a grounded response.
@@ -116,8 +110,7 @@ The Enterprise Refund AI Assistant implements a complete Retrieval-Augmented Gen
 During document ingestion, enterprise policy documents are uploaded to Amazon S3. An event notification triggers the ingestion Lambda function, which extracts document text, performs intelligent chunking, generates semantic embeddings using Amazon Bedrock Titan Text Embeddings V2, and stores both document metadata and vector representations in Amazon OpenSearch Serverless.
 During user interaction, customer questions are submitted through a CloudFront-hosted web application. The backend Lambda generates an embedding for the incoming question, performs semantic similarity search against OpenSearch Serverless, retrieves the most relevant document chunks, augments the prompt with enterprise context, and submits the enriched prompt to Amazon Bedrock (Amazon Nova Lite). The resulting answer is therefore grounded in enterprise documentation rather than relying solely on the language model's pretrained knowledge.
 
-SECTION 2
-Solution Architecture
+# 2. Solution Architecture
 The Enterprise Refund AI Assistant is designed as a cloud-native, event-driven, Retrieval-Augmented Generation (RAG) platform built entirely on managed AWS services. The architecture separates the system into three logical views, each illustrating a different aspect of the solution.
 ________________________________________
 1. Logical RAG Workflow
@@ -196,8 +189,195 @@ Several architectural principles guided the implementation of this solution:
 •	Modular Design – The solution separates presentation, compute, knowledge, AI, and data layers to improve maintainability and extensibility. 
 •	Scalable Retrieval – OpenSearch Serverless enables efficient vector search while Amazon Bedrock provides fully managed foundation model access without managing inference infrastructure. 
 
-SECTION 5
-Enterprise Features & Capabilities
+
+# 3. Technology Stack
+The Enterprise Refund AI Assistant is built using a fully serverless, cloud-native architecture on AWS. The solution combines Retrieval-Augmented Generation (RAG), event-driven processing, Infrastructure as Code (IaC), and enterprise DevOps practices to demonstrate a production-style Generative AI platform.
+Rather than serving as a simple chatbot, the platform automates the complete lifecycle of enterprise knowledge—from document ingestion and semantic indexing to grounded response generation and operational monitoring.
+________________________________________
+Artificial Intelligence
+Service	Purpose
+Amazon Bedrock	Managed Generative AI platform
+Amazon Nova Lite	Response generation
+Titan Text Embeddings V2	1024-dimensional vector embedding generation
+Amazon OpenSearch Serverless	Vector similarity search
+________________________________________
+Compute Layer
+Service	Purpose
+AWS Lambda (Ask)	RAG orchestration and inference
+AWS Lambda (Ingest)	Document processing and indexing
+AWS Lambda (Admin)	Administrative operations and system management
+Amazon API Gateway	REST API endpoints
+________________________________________
+Storage Layer
+Service	Purpose
+Amazon S3	Static frontend hosting and document repository
+Amazon DynamoDB (Conversation)	Chat session persistence
+Amazon DynamoDB (Chunk Metadata)	Document chunk metadata
+Amazon DynamoDB (Analytics)	Operational analytics
+Amazon OpenSearch Serverless	Enterprise vector index
+________________________________________
+Networking
+Service	Purpose
+Amazon CloudFront	Global CDN
+Amazon API Gateway	Public API endpoint
+________________________________________
+Security
+Service	Purpose
+AWS IAM	Least-privilege access control
+AWS KMS	Encryption
+GitHub OIDC	Passwordless CI/CD authentication
+________________________________________
+Monitoring & Operations
+Service	Purpose
+Amazon CloudWatch Logs	Lambda logging
+CloudWatch Dashboard	Operational visibility
+CloudWatch Alarms	Health monitoring
+Amazon SNS	Operational notifications
+________________________________________
+DevOps
+Technology	Purpose
+Terraform	Infrastructure as Code
+GitHub Actions	CI/CD
+Git	Source control
+OIDC Federation	Secure AWS deployments
+________________________________________
+Programming Languages
+•	Python 3.12 
+•	JavaScript 
+•	HTML5 
+•	CSS3 
+•	Terraform (HCL) 
+________________________________________
+Python Libraries
+•	boto3 
+•	opensearch-py 
+•	requests-aws4auth 
+•	pypdf 
+•	requests 
+________________________________________
+Enterprise Capabilities
+The platform implements several enterprise-grade capabilities beyond standard Retrieval-Augmented Generation.
+•	Semantic document retrieval 
+•	Automated vector indexing 
+•	Event-driven document ingestion 
+•	Serverless AI inference 
+•	Session-aware conversations 
+•	Operational analytics 
+•	Cloud-native monitoring 
+•	Automated infrastructure deployment 
+•	Secure CI/CD using OIDC 
+•	Infrastructure bootstrap automation 
+________________________________________
+Design Principles
+The architecture follows several engineering principles that guided the implementation.
+Serverless First
+Every compute workload is implemented using fully managed AWS services, minimizing operational overhead while providing automatic scalability.
+________________________________________
+Event-Driven Architecture
+The platform reacts automatically to document uploads through Amazon S3 Event Notifications, eliminating manual ingestion processes.
+________________________________________
+Retrieval-Augmented Generation
+Enterprise knowledge is retrieved dynamically from OpenSearch Serverless before invoking the foundation model, ensuring responses remain grounded in authoritative documentation.
+________________________________________
+Infrastructure as Code
+Every AWS resource is provisioned and managed using Terraform, enabling reproducible deployments and version-controlled infrastructure changes.
+________________________________________
+Security by Design
+Security is integrated throughout the platform using IAM least-privilege policies, AWS KMS encryption, GitHub OIDC authentication, and managed AWS services.
+________________________________________
+Operational Excellence
+CloudWatch dashboards, alarms, analytics tables, and SNS notifications provide visibility into system health and operational events.
+________________________________________
+
+# 4. Project Structure
+Unlike a simple proof-of-concept, the repository is organized into independent infrastructure, application, automation, and operational components.
+enterprise-refund-ai/
+│
+├── .github/
+│   └── workflows/
+│       └── terraform.yml
+│
+├── backend/
+│   ├── src/
+│   │   ├── admin/
+│   │   │   └── lambda_function.py
+│   │   ├── ask/
+│   │   │   └── lambda_function.py
+│   │   └── ingest/
+│   │       └── lambda_function.py
+│   │
+│   └── requirements.txt
+│
+├── frontend/
+│
+├── scripts/
+│   ├── bootstrap_opensearch_index.py
+│   └── bootstrap_requirements.txt
+│
+├── terraform/
+│   ├── admin_lambda.zip
+│   ├── ask.zip
+│   ├── ingest.zip
+│   ├── analytics_dynamodb.tf
+│   ├── apigateway.tf
+│   ├── backend.tf
+│   ├── cloudwatch_alarms.tf
+│   ├── cloudwatch_dashboard.tf
+│   ├── cloudwatch.tf
+│   ├── dynamodb_chunk.tf
+│   ├── dynamodb.tf
+│   ├── frontend_hosting.tf
+│   ├── iam.tf
+│   ├── lambda_admin.tf
+│   ├── lambda_ask.tf
+│   ├── lambda_ingest.tf
+│   ├── locals.tf
+│   ├── opensearch.tf
+│   ├── outputs.tf
+│   ├── providers.tf
+│   ├── s3_notifications.tf
+│   ├── s3.tf
+│   ├── sns.tf
+│   ├── variables.tf
+│   └── versions.tf
+│
+├── architecture/
+│
+├── screenshots/
+│
+└── README.md
+________________________________________
+Repository Organization
+The repository is organized into four major solution domains.
+Backend Services
+The backend contains three independent AWS Lambda functions, each with a clearly defined responsibility.
+Ask Lambda
+•	RAG orchestration 
+•	Vector search 
+•	Prompt augmentation 
+•	Amazon Bedrock invocation 
+•	Conversation management 
+Ingest Lambda
+•	Document ingestion 
+•	PDF text extraction 
+•	Intelligent chunking 
+•	Titan embedding generation 
+•	OpenSearch indexing 
+Admin Lambda
+•	Administrative APIs 
+•	Platform management 
+•	Operational utilities 
+________________________________________
+Infrastructure
+Terraform provisions all AWS resources, including networking, storage, compute, AI services, monitoring, security, and deployment automation.
+________________________________________
+Automation
+The .github/workflows directory contains an enterprise GitHub Actions pipeline that validates Terraform, deploys infrastructure using OIDC authentication, bootstraps OpenSearch indexes, and publishes frontend assets.
+________________________________________
+Bootstrap & Utilities
+The scripts directory contains operational utilities used during deployment, including OpenSearch index bootstrapping and deployment dependencies.
+
+# 5. Enterprise Features & Capabilities
 The Enterprise Refund AI Assistant was designed as a production-style Retrieval-Augmented Generation (RAG) platform rather than a standalone chatbot. The platform combines managed AWS services, event-driven processing, semantic search, and Infrastructure as Code to deliver an enterprise-grade AI solution.
 Core AI Capabilities
 Retrieval-Augmented Generation (RAG)
@@ -248,7 +428,7 @@ ________________________________________
 Secure CI/CD
 Infrastructure deployments are automated through GitHub Actions using OpenID Connect (OIDC), eliminating long-lived AWS credentials and aligning with AWS security best practices.
 ________________________________________
-SECTION 6
+# 6. CI/CD Pipeline
 Continuous Integration & Continuous Deployment (CI/CD)
 Infrastructure and application deployment are fully automated using GitHub Actions and Terraform.
 The deployment pipeline follows an enterprise GitOps approach in which all infrastructure changes are version-controlled, peer-reviewed, and deployed through automated workflows.
@@ -304,8 +484,8 @@ Deployment Benefits
 •	Version-controlled infrastructure 
 •	Enterprise GitOps workflow 
 ________________________________________
-SECTION 7
-Infrastructure Deployment
+
+# 7. Infrastructure Deployment
 The entire platform is provisioned using Terraform and deployed through a single automated workflow.
 Infrastructure components include:
 Compute
@@ -383,8 +563,8 @@ Security
 •	AWS KMS Encryption 
 •	GitHub OIDC Authentication 
 •	![ IAM Roles ](screenshots/13-IAM-Role.png)
-![ KMS](screenshots/ KMS.png)
-![ OIDC](screenshots/ OIDC.png)
+![ KMS](screenshots/KMS.png)
+![ OIDC](screenshots/OIDC.png)
 
 
 
@@ -401,8 +581,8 @@ The deployment process includes several automated validation and bootstrap tasks
 •	Static website publication 
 These tasks ensure the environment is fully operational immediately after deployment.
 ________________________________________
-SECTION 8
-End-to-End Workflows
+
+# 8. End-to-End Workflows
 The Enterprise Refund AI Assistant implements two independent workflows that operate together to provide an intelligent document-grounded conversational experience.
 ________________________________________
 Workflow 1 — Document Ingestion Pipeline
@@ -472,8 +652,10 @@ Amazon Nova Lite generates a grounded response using the retrieved enterprise do
 The response is returned to the frontend and conversation history is stored in Amazon DynamoDB.
 ________________________________________
 Why This Architecture?
-This dual-workflow design separates knowledge ingestion from knowledge retrieval, allowing enterprise documents to evolve independently of the application. New documents become searchable through the ingestion pipeline without requiring changes to the runtime application or redeployment of the AI assistant.SECTION 9
-Application Demonstration
+This dual-workflow design separates knowledge ingestion from knowledge retrieval, allowing enterprise documents to evolve independently of the application. New documents become searchable through the ingestion pipeline without requiring changes to the runtime application or redeployment of the AI assistant.
+
+
+# 9. Application Demonstration
 The Enterprise Refund AI Assistant provides a web-based conversational interface that enables users to interact with enterprise knowledge using natural language.
 Unlike traditional keyword search applications, the assistant performs semantic retrieval against enterprise documentation before generating responses. This Retrieval-Augmented Generation (RAG) approach ensures that answers are grounded in organizational policies rather than relying solely on the foundation model's pretrained knowledge.
 ________________________________________
@@ -481,7 +663,7 @@ User Experience
 The application is delivered as a static web application hosted on Amazon S3 and distributed globally through Amazon CloudFront.
 Users interact with the assistant through a clean, responsive chat interface without requiring any software installation.
 Figure 7. Enterprise Refund AI Assistant Web Interface 
-![Enterprise Refund AI Assistant](screenshots/ 02-chat-demo.png)
+![Enterprise Refund AI Assistant](screenshots/02-chat-demo.png)
 
 **Figure 13. Enterprise Refund AI Assistant**
 ________________________________________
@@ -545,8 +727,8 @@ The following artifacts validate the successful operation of the application:
 •	Grounded response generation 
 These screenshots collectively demonstrate a complete production deployment rather than an isolated proof of concept.
 ________________________________________
-SECTION 10
-AWS Infrastructure
+
+# 10. AWS Infrastructure
 The Enterprise Refund AI Assistant is deployed entirely on AWS using managed services. Infrastructure provisioning, configuration, and updates are fully automated through Terraform, ensuring repeatable and version-controlled deployments.
 ________________________________________
 Infrastructure Overview
@@ -631,8 +813,8 @@ Benefits include:
 •	High availability 
 
 ________________________________________
-SECTION 11
-Monitoring & Observability
+
+# 11. Monitoring & Observability
 Enterprise applications require operational visibility beyond functional correctness. The Enterprise Refund AI Assistant integrates AWS monitoring services to provide centralized logging, health monitoring, and operational insights.
 ________________________________________
 Amazon CloudWatch Logs
@@ -644,7 +826,7 @@ Captured information includes:
 •	Vector search activity 
 •	Amazon Bedrock invocations 
 •	Error diagnostics 
-![ Lambda Execution Logs](screenshots/ 11.1.cloudwatch- S3 Event Triggered.png)
+![ Lambda Execution Logs](screenshots/11.1.cloudwatch- S3 Event Triggered.png)
 ![ Lambda Execution Logs]( screenshots/11.2. cloudwatch- OpenSearch Bulk Index Success.png)
 ![ Lambda Execution Logs]( screenshots/11.3-cloudwatch-Document-Processed (33 Chunks).png)
 ![ Lambda Execution Logs](screenshots/11.4-cloudwatch-Ask Lambda (Vector Search → Nova Lite).png)
@@ -684,8 +866,8 @@ The monitoring solution provides:
 •	Early issue detection 
 •	Historical performance analysis 
 ________________________________________
-SECTION 12
-Security
+
+# 12. Security
 Security was incorporated into every layer of the platform, following AWS Well-Architected Framework principles and the principle of least privilege.
 ________________________________________
 Identity & Access Management
@@ -735,8 +917,8 @@ Infrastructure changes are managed exclusively through Terraform and GitHub Acti
 •	Automated validation 
 •	Repeatable deployments 
 ________________________________________
-SECTION 13
-Project Evolution
+
+# 13. Project Evolution
 The Enterprise Refund AI Assistant was developed incrementally through four major implementation milestones. This phased approach reflects enterprise software delivery practices, where functionality is introduced progressively while maintaining a deployable and testable system at each stage.
 Milestone	Major Deliverables	Outcome
 Milestone 1 – Core Infrastructure	Provisioned foundational AWS services including Amazon S3, AWS Lambda, API Gateway, CloudFront, IAM, DynamoDB, CloudWatch, and Terraform modules. Established secure GitHub Actions CI/CD with OpenID Connect (OIDC).	Created a secure, repeatable cloud foundation and automated deployment pipeline.
@@ -748,8 +930,8 @@ Engineering Journey
 Throughout the project, the platform evolved from a foundational AWS deployment into a production-style AI application. Each milestone introduced new capabilities while reinforcing architectural principles such as serverless design, event-driven processing, Infrastructure as Code, and secure automation.
 This iterative development approach enabled continuous validation, troubleshooting, and refinement, resulting in a platform that demonstrates not only functional AI capabilities but also the engineering practices required to build, deploy, and operate enterprise cloud solutions.
 
-SECTION 14
-Engineering Challenges & Solutions
+
+# 14. Engineering Challenges & Solutions
 Developing an enterprise-grade AI platform involved addressing a series of architectural, operational, and deployment challenges. Rather than viewing these issues as obstacles, they became opportunities to improve the platform's reliability, maintainability, and production readiness.
 The following highlights several key challenges encountered during implementation and the engineering decisions used to resolve them.
 ________________________________________
@@ -831,8 +1013,9 @@ The implementation reinforced several important engineering principles:
 •	Validate infrastructure continuously through automated pipelines. 
 •	Design deployment processes to be repeatable and deterministic. 
 ________________________________________
-SECTION 15
-Lessons Learned
+
+
+# 15. Lessons Learned
 This project provided practical experience in designing, deploying, and operating an enterprise Retrieval-Augmented Generation (RAG) platform on AWS.
 Several key lessons emerged throughout the implementation.
 ________________________________________
@@ -859,8 +1042,8 @@ Enterprise AI Requires More Than a Language Model
 Building a production AI platform involves much more than invoking a foundation model.
 Success depends on integrating knowledge retrieval, vector databases, Infrastructure as Code, deployment automation, monitoring, and secure operational practices into a cohesive architecture.
 ________________________________________
-SECTION 16
-Future Enhancements
+
+# 16. Future Enhancements
 Although the current platform demonstrates a complete enterprise Retrieval-Augmented Generation solution, several enhancements could further extend its capabilities.
 Planned Enhancements
 Hybrid Search
@@ -895,8 +1078,8 @@ ________________________________________
 Automated Evaluation
 Introduce evaluation pipelines to measure retrieval quality, response accuracy, latency, and overall system performance.
 ________________________________________
-SECTION 17
-Demonstration
+
+# 17. Demonstration
 The following resources provide an end-to-end demonstration of the Enterprise Refund AI Assistant.
 ________________________________________
 
@@ -932,8 +1115,8 @@ The complete demonstration validates the following sequence:
 9.	Display the response and persist conversation history. 
 This end-to-end workflow demonstrates the complete lifecycle of enterprise knowledge ingestion and AI-assisted retrieval.
 ________________________________________
-SECTION 18
-Conclusion
+
+# 18. Conclusion
 The Enterprise Refund AI Assistant demonstrates how modern cloud-native services can be combined to build a production-style Retrieval-Augmented Generation platform on AWS.
 By integrating Amazon Bedrock, Amazon OpenSearch Serverless, AWS Lambda, Amazon API Gateway, Amazon S3, Amazon DynamoDB, CloudFront, and Terraform, the project showcases the complete lifecycle of enterprise AI application development—from infrastructure provisioning and automated document ingestion to semantic retrieval, grounded response generation, secure deployment, and operational monitoring.
 Beyond implementing AI functionality, the project emphasizes engineering practices expected in enterprise environments, including Infrastructure as Code, event-driven architecture, secure CI/CD with GitHub OIDC, least-privilege security, automated monitoring, and repeatable deployments.
@@ -1003,9 +1186,9 @@ Operations
 
 **Tijani Abagaro**
 
-Principal AWS & AI Solutions Architect
-AWS Certified Solutions Architect Professional 
-Specializations:
+**Principal AWS & AI Solutions Architect**
+**AWS Certified Solutions Architect Professional**
+### Specializations:
 
 - Enterprise Cloud Architecture
 - Generative AI & RAG
