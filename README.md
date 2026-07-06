@@ -672,44 +672,19 @@ The platform performs the following sequence:
 9.	Returns a grounded response to the frontend. 
 10.	Stores the conversation history in Amazon DynamoDB. 
 ________________________________________
-Retrieval-Augmented Generation
-The application does not answer questions directly from the language model.
-Instead, every response follows the RAG workflow:
-User Question
-      │
-      ▼
-Generate Query Embedding
-      │
-      ▼
-Vector Search (OpenSearch Serverless)
-      │
-      ▼
-Retrieve Relevant Policy Chunks
-      │
-      ▼
-Prompt Augmentation
-      │
-      ▼
-Amazon Nova Lite
-      │
-      ▼
-Grounded Response
-This architecture significantly improves response quality by grounding generated answers in enterprise documentation.
-
-
 
 # Retrieval-Augmented Generation
 
 The application does not answer questions directly from the language model. Instead, every response follows the RAG workflow:
 
 ### **The RAG Workflow**
-* 📥 **User Question**
-* 🔍 **Generate Query Embedding**
-* 🗄️ **Vector Search** *(OpenSearch Serverless)*
-* 📄 **Retrieve Relevant Policy Chunks**
-* 🧠 **Prompt Augmentation**
-* 🤖 **Amazon Nova Lite**
-* 🎯 **Grounded Response**
+*  **User Question**
+*  **Generate Query Embedding**
+*  **Vector Search** *(OpenSearch Serverless)*
+*  **Retrieve Relevant Policy Chunks**
+*  **Prompt Augmentation**
+*  **Amazon Nova Lite**
+*  **Grounded Response**
 
 ---
 
