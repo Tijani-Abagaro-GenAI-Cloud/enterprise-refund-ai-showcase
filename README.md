@@ -1012,482 +1012,758 @@ The application does not answer questions directly from the language model. Inst
 
 ### Grounded Response
 > This architecture significantly improves response quality by grounding generated answers in enterprise documentation.
+---
 
+## Demonstrated Capabilities
 
-
-________________________________________
-Demonstrated Capabilities
 The deployed application demonstrates:
-•	Natural language question answering 
-•	Retrieval-Augmented Generation (RAG) 
-•	Semantic vector search 
-•	Grounded response generation 
-•	Context-aware conversations 
-•	Session persistence 
-•	Low-latency serverless inference 
-________________________________________
-End-to-End Validation
+
+- Natural language question answering
+- Retrieval-Augmented Generation (RAG)
+- Semantic vector search
+- Grounded response generation
+- Context-aware conversations
+- Session persistence
+- Low-latency serverless inference
+
+---
+
+## End-to-End Validation
+
 The following artifacts validate the successful operation of the application:
-•	Frontend chat interface 
-•	API Gateway invocation 
-•	Ask Lambda execution 
-•	Vector retrieval logs 
-•	Amazon Bedrock inference 
-•	Grounded response generation 
+
+- Frontend chat interface
+- API Gateway invocation
+- Ask Lambda execution
+- Vector retrieval logs
+- Amazon Bedrock inference
+- Grounded response generation
+
 These screenshots collectively demonstrate a complete production deployment rather than an isolated proof of concept.
-________________________________________
+
+---
 
 # 10. AWS Infrastructure
+
 The Enterprise Refund AI Assistant is deployed entirely on AWS using managed services. Infrastructure provisioning, configuration, and updates are fully automated through Terraform, ensuring repeatable and version-controlled deployments.
-________________________________________
-Infrastructure Overview
+
+---
+
+## Infrastructure Overview
+
 The deployed environment consists of the following core services.
-AWS Service	Purpose
-Amazon S3	Frontend hosting and enterprise document storage
-Amazon CloudFront	Global content delivery
-Amazon API Gateway	REST API
-AWS Lambda	Serverless application logic
-Amazon OpenSearch Serverless	Vector database
-Amazon Bedrock	Foundation model platform
-Amazon DynamoDB	Session and analytics storage
-Amazon CloudWatch	Monitoring and observability
-Amazon SNS	Operational notifications
-AWS IAM	Identity and access management
-AWS KMS	Encryption
-________________________________________
-Amazon Bedrock
+
+| AWS Service | Purpose |
+|-------------|---------|
+| Amazon S3 | Frontend hosting and enterprise document storage |
+| Amazon CloudFront | Global content delivery |
+| Amazon API Gateway | REST API |
+| AWS Lambda | Serverless application logic |
+| Amazon OpenSearch Serverless | Vector database |
+| Amazon Bedrock | Foundation model platform |
+| Amazon DynamoDB | Session and analytics storage |
+| Amazon CloudWatch | Monitoring and observability |
+| Amazon SNS | Operational notifications |
+| AWS IAM | Identity and access management |
+| AWS KMS | Encryption |
+
+---
+
+## Amazon Bedrock
+
 Amazon Bedrock provides fully managed access to foundation models used throughout the platform.
-Models Used
-Model	Purpose
-Titan Text Embeddings V2	Semantic embedding generation
-Amazon Nova Lite	Grounded response generation
 
-________________________________________
-Amazon OpenSearch Serverless
+### Models Used
+
+| Model | Purpose |
+|--------|---------|
+| Titan Text Embeddings V2 | Semantic embedding generation |
+| Amazon Nova Lite | Grounded response generation |
+
+---
+
+## Amazon OpenSearch Serverless
+
 Amazon OpenSearch Serverless acts as the enterprise vector knowledge base.
+
 Each document chunk is stored together with its semantic embedding, enabling approximate nearest-neighbor vector search.
+
 Responsibilities include:
-•	Vector indexing 
-•	Semantic retrieval 
-•	Metadata storage 
-•	Similarity search 
-________________________________________
-AWS Lambda
+
+- Vector indexing
+- Semantic retrieval
+- Metadata storage
+- Similarity search
+
+---
+
+## AWS Lambda
+
 The solution uses three independent Lambda functions.
-Ask Lambda
-Responsible for:
-•	Query embedding 
-•	Semantic retrieval 
-•	Prompt augmentation 
-•	Amazon Bedrock invocation 
-•	Conversation management 
 
-________________________________________
-Ingest Lambda
+### Ask Lambda
+
 Responsible for:
-•	PDF processing 
-•	Text extraction 
-•	Chunk generation 
-•	Embedding creation 
-•	Vector indexing 
-________________________________________
-Admin Lambda
+
+- Query embedding
+- Semantic retrieval
+- Prompt augmentation
+- Amazon Bedrock invocation
+- Conversation management
+
+---
+
+### Ingest Lambda
+
 Responsible for:
-•	Administrative APIs 
-•	Platform utilities 
-•	Operational management 
-________________________________________
-Amazon S3
+
+- PDF processing
+- Text extraction
+- Chunk generation
+- Embedding creation
+- Vector indexing
+
+---
+
+### Admin Lambda
+
+Responsible for:
+
+- Administrative APIs
+- Platform utilities
+- Operational management
+
+---
+
+## Amazon S3
+
 Amazon S3 serves two independent purposes.
-Frontend Hosting
+
+### Frontend Hosting
+
 Hosts the static web application distributed through CloudFront.
-Document Repository
+
+### Document Repository
+
 Stores enterprise policy documents that automatically trigger the ingestion workflow.
-________________________________________
-Amazon API Gateway
+
+---
+
+## Amazon API Gateway
+
 Amazon API Gateway provides the REST interface between the frontend application and backend Lambda functions.
+
 Responsibilities include:
-•	HTTPS endpoint management 
-•	Request routing 
-•	Integration with Lambda 
-•	API security 
 
-________________________________________
-Amazon CloudFront
+- HTTPS endpoint management
+- Request routing
+- Integration with Lambda
+- API security
+
+---
+
+## Amazon CloudFront
+
 CloudFront distributes the frontend globally while improving performance through edge caching.
-Benefits include:
-•	HTTPS delivery 
-•	Low latency 
-•	Edge caching 
-•	High availability 
 
-________________________________________
+Benefits include:
+
+- HTTPS delivery
+- Low latency
+- Edge caching
+- High availability
+
+---
 
 # 11. Monitoring & Observability
-Enterprise applications require operational visibility beyond functional correctness. The Enterprise Refund AI Assistant integrates AWS monitoring services to provide centralized logging, health monitoring, and operational insights.
-________________________________________
-Amazon CloudWatch Logs
-Each Lambda function publishes structured execution logs to Amazon CloudWatch.
-Captured information includes:
-•	Request identifiers 
-•	Execution duration 
-•	Memory utilization 
-•	Vector search activity 
-•	Amazon Bedrock invocations 
-•	Error diagnostics 
-![ Lambda Execution Logs](screenshots/11.1.cloudwatch- S3 Event Triggered.png)
-![ Lambda Execution Logs]( screenshots/11.2. cloudwatch- OpenSearch Bulk Index Success.png)
-![ Lambda Execution Logs]( screenshots/11.3-cloudwatch-Document-Processed (33 Chunks).png)
-![ Lambda Execution Logs](screenshots/11.4-cloudwatch-Ask Lambda (Vector Search → Nova Lite).png)
 
+Enterprise applications require operational visibility beyond functional correctness. The Enterprise Refund AI Assistant integrates AWS monitoring services to provide centralized logging, health monitoring, and operational insights.
+
+---
+
+## Amazon CloudWatch Logs
+
+Each Lambda function publishes structured execution logs to Amazon CloudWatch.
+
+Captured information includes:
+
+- Request identifiers
+- Execution duration
+- Memory utilization
+- Vector search activity
+- Amazon Bedrock invocations
+- Error diagnostics
+
+![ Lambda Execution Logs](screenshots/11.1.cloudwatch- S3 Event Triggered.png)
+
+![ Lambda Execution Logs]( screenshots/11.2. cloudwatch- OpenSearch Bulk Index Success.png)
+
+![ Lambda Execution Logs]( screenshots/11.3-cloudwatch-Document-Processed (33 Chunks).png)
+
+![ Lambda Execution Logs](screenshots/11.4-cloudwatch-Ask Lambda (Vector Search → Nova Lite).png)
 
 **Figure 16. Lambda Execution Logs **
 
-________________________________________
-CloudWatch Dashboard
+---
+
+## CloudWatch Dashboard
+
 A centralized CloudWatch Dashboard provides operational visibility across the platform.
+
 Monitored metrics include:
-•	Lambda invocations 
-•	Error counts 
-•	Duration 
-•	API requests 
-•	Resource utilization 
+
+- Lambda invocations
+- Error counts
+- Duration
+- API requests
+- Resource utilization
 
 ![Amazon CloudWatch](screenshots/CloudWatch-Dashboards.png)
 
-**Figure 17. CloudWatch Dashboard **________________________________________
-CloudWatch Alarms
+**Figure 17. CloudWatch Dashboard **
+
+---
+
+## CloudWatch Alarms
+
 Operational alarms monitor critical resources and notify administrators of abnormal behavior.
+
 Typical alarm conditions include:
-•	Lambda failures 
-•	High error rates 
-•	Excessive execution duration 
-•	API Gateway errors 
-________________________________________
-Amazon SNS Notifications
+
+- Lambda failures
+- High error rates
+- Excessive execution duration
+- API Gateway errors
+
+---
+
+## Amazon SNS Notifications
+
 CloudWatch Alarms integrate with Amazon SNS to deliver operational notifications for significant events, enabling rapid awareness and response.
-________________________________________
-Observability Benefits
+
+---
+
+## Observability Benefits
+
 The monitoring solution provides:
-•	Centralized operational visibility 
-•	Faster troubleshooting 
-•	Improved reliability 
-•	Early issue detection 
-•	Historical performance analysis 
-________________________________________
+
+- Centralized operational visibility
+- Faster troubleshooting
+- Improved reliability
+- Early issue detection
+- Historical performance analysis
+
+---
 
 # 12. Security
+
 Security was incorporated into every layer of the platform, following AWS Well-Architected Framework principles and the principle of least privilege.
-________________________________________
-Identity & Access Management
+
+---
+
+## Identity & Access Management
+
 AWS Identity and Access Management (IAM) controls access between AWS services.
+
 Dedicated IAM roles are assigned to:
-•	Ask Lambda 
-•	Ingest Lambda 
-•	Admin Lambda 
-•	GitHub Actions deployment pipeline 
+
+- Ask Lambda
+- Ingest Lambda
+- Admin Lambda
+- GitHub Actions deployment pipeline
+
 Each role is granted only the permissions required to perform its specific responsibilities.
-________________________________________
-GitHub OIDC Authentication
+
+---
+
+## GitHub OIDC Authentication
+
 Infrastructure deployments use GitHub OpenID Connect (OIDC) federation instead of long-lived AWS access keys.
+
 Benefits include:
-•	No static AWS credentials 
-•	Short-lived security tokens 
-•	Improved credential management 
-•	Alignment with AWS security best practices 
+
+- No static AWS credentials
+- Short-lived security tokens
+- Improved credential management
+- Alignment with AWS security best practices
 
 ![ GitHub Actions](screenshots/10.4-github-actions-Deploy Infrastructure.png)
+
 ![ GitHub Actions](screenshots/10.1-github-actions- Repository Overview.png)
+
 ![ GitHub Actions](screenshots/10.2-github-actions-Terraform.png)
+
 ![ GitHub Actions](screenshots/10.3-github-actions-Interprise-Architecture-Pipeline.png)
+
 ![ GitHub Actions](screenshots/10.5.github-actions-Deploy Frontend.png)
 
 **Figure 18. GitHub Actions infrastructure deployment pipeline *
-________________________________________
-Encryption
+
+---
+
+## Encryption
+
 AWS Key Management Service (KMS) is used to protect sensitive resources through encryption at rest.
+
 Encrypted resources include:
-•	Amazon S3 
-•	DynamoDB 
-•	Other supported AWS services 
-________________________________________
-API Security
+
+- Amazon S3
+- DynamoDB
+- Other supported AWS services
+
+---
+
+## API Security
+
 Amazon API Gateway exposes HTTPS endpoints that securely route requests to AWS Lambda.
+
 Authentication and authorization policies can be extended to integrate with enterprise identity providers such as Amazon Cognito or external OAuth providers.
-________________________________________
-Least-Privilege Design
+
+---
+
+## Least-Privilege Design
+
 Every AWS service communicates through narrowly scoped IAM policies.
+
 This minimizes the attack surface while reducing the potential impact of credential misuse.
-________________________________________
-Secure Infrastructure Deployment
+
+---
+
+## Secure Infrastructure Deployment
+
 Infrastructure changes are managed exclusively through Terraform and GitHub Actions, providing:
-•	Version-controlled infrastructure 
-•	Change traceability 
-•	Automated validation 
-•	Repeatable deployments 
-________________________________________
+
+- Version-controlled infrastructure
+- Change traceability
+- Automated validation
+- Repeatable deployments
+
+---
 
 # 13. Project Evolution
+
 The Enterprise Refund AI Assistant was developed incrementally through four major implementation milestones. This phased approach reflects enterprise software delivery practices, where functionality is introduced progressively while maintaining a deployable and testable system at each stage.
-Milestone	Major Deliverables	Outcome
-Milestone 1 – Core Infrastructure	Provisioned foundational AWS services including Amazon S3, AWS Lambda, API Gateway, CloudFront, IAM, DynamoDB, CloudWatch, and Terraform modules. Established secure GitHub Actions CI/CD with OpenID Connect (OIDC).	Created a secure, repeatable cloud foundation and automated deployment pipeline.
-Milestone 2 – Document Ingestion Pipeline	Implemented event-driven document ingestion using Amazon S3 Event Notifications, Ingest Lambda, PDF text extraction, intelligent chunking (1,000 characters with 200-character overlap), and metadata persistence.	Automated transformation of uploaded enterprise documents into searchable knowledge assets.
-Milestone 3 – Retrieval-Augmented Generation (RAG)	Introduced semantic retrieval logic, context assembly, and integration between document chunks and the Ask Lambda to enable grounded AI responses.	Transitioned from a traditional chatbot to a document-aware RAG assistant.
-Milestone 4 – Vector Search & Enterprise AI	Integrated Titan Text Embeddings V2, Amazon OpenSearch Serverless vector indexing, Amazon Nova Lite, automated OpenSearch bootstrap, and end-to-end semantic search. Added operational monitoring, validation, and production-ready deployment refinements.	Delivered a fully operational enterprise-grade RAG platform capable of semantic search and grounded response generation.
-________________________________________
-Engineering Journey
+
+| Milestone | Major Deliverables | Outcome |
+|-----------|--------------------|---------|
+| Milestone 1 – Core Infrastructure | Provisioned foundational AWS services including Amazon S3, AWS Lambda, API Gateway, CloudFront, IAM, DynamoDB, CloudWatch, and Terraform modules. Established secure GitHub Actions CI/CD with OpenID Connect (OIDC). | Created a secure, repeatable cloud foundation and automated deployment pipeline. |
+| Milestone 2 – Document Ingestion Pipeline | Implemented event-driven document ingestion using Amazon S3 Event Notifications, Ingest Lambda, PDF text extraction, intelligent chunking (1,000 characters with 200-character overlap), and metadata persistence. | Automated transformation of uploaded enterprise documents into searchable knowledge assets. |
+| Milestone 3 – Retrieval-Augmented Generation (RAG) | Introduced semantic retrieval logic, context assembly, and integration between document chunks and the Ask Lambda to enable grounded AI responses. | Transitioned from a traditional chatbot to a document-aware RAG assistant. |
+| Milestone 4 – Vector Search & Enterprise AI | Integrated Titan Text Embeddings V2, Amazon OpenSearch Serverless vector indexing, Amazon Nova Lite, automated OpenSearch bootstrap, and end-to-end semantic search. Added operational monitoring, validation, and production-ready deployment refinements. | Delivered a fully operational enterprise-grade RAG platform capable of semantic search and grounded response generation. |
+
+---
+
+## Engineering Journey
+
 Throughout the project, the platform evolved from a foundational AWS deployment into a production-style AI application. Each milestone introduced new capabilities while reinforcing architectural principles such as serverless design, event-driven processing, Infrastructure as Code, and secure automation.
+
 This iterative development approach enabled continuous validation, troubleshooting, and refinement, resulting in a platform that demonstrates not only functional AI capabilities but also the engineering practices required to build, deploy, and operate enterprise cloud solutions.
 
+---
 
 # 14. Engineering Challenges & Solutions
+
 Developing an enterprise-grade AI platform involved addressing a series of architectural, operational, and deployment challenges. Rather than viewing these issues as obstacles, they became opportunities to improve the platform's reliability, maintainability, and production readiness.
+
 The following highlights several key challenges encountered during implementation and the engineering decisions used to resolve them.
-________________________________________
-Challenge 1 – Secure CI/CD Authentication
-Problem
+
+---
+
+## Challenge 1 – Secure CI/CD Authentication
+
+### Problem
+
 Traditional CI/CD pipelines often rely on long-lived AWS access keys stored as repository secrets, increasing operational risk and credential management overhead.
-Solution
+
+### Solution
+
 The deployment pipeline was redesigned to use GitHub OpenID Connect (OIDC) federation. GitHub Actions now authenticates directly with AWS using short-lived credentials, eliminating the need to store static access keys.
-Outcome
-•	Improved security posture 
-•	Reduced credential management 
-•	Alignment with AWS security best practices 
-________________________________________
-Challenge 2 – OpenSearch Bootstrap Dependencies
-Problem
+
+### Outcome
+
+- Improved security posture
+- Reduced credential management
+- Alignment with AWS security best practices
+
+---
+
+## Challenge 2 – OpenSearch Bootstrap Dependencies
+
+### Problem
+
 The OpenSearch bootstrap script initially attempted to install Python dependencies dynamically at runtime, introducing deployment complexity and reducing determinism.
-Solution
+
+### Solution
+
 Bootstrap dependencies were moved into a dedicated requirements file and installed as part of the GitHub Actions workflow before Terraform executed the bootstrap process.
-Outcome
-•	Deterministic deployments 
-•	Simplified bootstrap logic 
-•	Improved CI/CD reliability 
-________________________________________
-Challenge 3 – OpenSearch Collection Configuration
-Problem
+
+### Outcome
+
+- Deterministic deployments
+- Simplified bootstrap logic
+- Improved CI/CD reliability
+
+---
+
+## Challenge 3 – OpenSearch Collection Configuration
+
+### Problem
+
 The bootstrap process originally referenced a hardcoded collection name that differed from the value provisioned by Terraform, preventing successful initialization.
-Solution
+
+### Solution
+
 The collection name was passed from Terraform to the bootstrap script through environment variables, ensuring both infrastructure and application components referenced the same configuration.
-Outcome
-•	Eliminated configuration drift 
-•	Improved deployment consistency 
-•	Simplified environment management 
-________________________________________
-Challenge 4 – Access Control for Vector Index Operations
-Problem
+
+### Outcome
+
+- Eliminated configuration drift
+- Improved deployment consistency
+- Simplified environment management
+
+---
+
+## Challenge 4 – Access Control for Vector Index Operations
+
+### Problem
+
 Terraform successfully provisioned the OpenSearch collection, but the bootstrap process received authorization errors when attempting to create or validate the vector index.
-Solution
+
+### Solution
+
 The OpenSearch Serverless data access policy was updated to include the IAM principal executing the Terraform deployment, in addition to the Lambda execution roles.
-Outcome
-•	Successful bootstrap execution 
-•	Correct IAM authorization 
-•	Secure least-privilege access 
-________________________________________
-Challenge 5 – Vector Index Schema Validation
-Problem
+
+### Outcome
+
+- Successful bootstrap execution
+- Correct IAM authorization
+- Secure least-privilege access
+
+---
+
+## Challenge 5 – Vector Index Schema Validation
+
+### Problem
+
 A previously created vector index contained an incompatible schema that no longer matched the expected embedding configuration.
-Solution
+
+### Solution
+
 Index validation logic was enhanced to verify the expected vector field configuration before use. In development environments, controlled index recreation was introduced behind explicit safety gates, while production environments fail safely and require manual intervention.
-Outcome
-•	Protected production data 
-•	Improved deployment resilience 
-•	Controlled handling of schema evolution 
-________________________________________
-Challenge 6 – Foundation Model Lifecycle Management
-Problem
+
+### Outcome
+
+- Protected production data
+- Improved deployment resilience
+- Controlled handling of schema evolution
+
+---
+
+## Challenge 6 – Foundation Model Lifecycle Management
+
+### Problem
+
 During development, the originally selected Bedrock model reached end-of-life, causing inference requests to fail.
-Solution
+
+### Solution
+
 The model configuration was externalized through Terraform variables, allowing the application to migrate to Amazon Nova Lite without modifying the application logic.
-Outcome
-•	Simplified model upgrades 
-•	Reduced operational disruption 
-•	Improved configuration management 
-________________________________________
-Challenge 7 – CI/CD and Terraform State Management
-Problem
+
+### Outcome
+
+- Simplified model upgrades
+- Reduced operational disruption
+- Improved configuration management
+
+---
+
+## Challenge 7 – CI/CD and Terraform State Management
+
+### Problem
+
 Infrastructure updates occasionally required reconciliation between local development branches, GitHub Actions workflows, and Terraform state.
-Solution
+
+### Solution
+
 A disciplined Git workflow, incremental Terraform validation, and automated deployment pipeline were used to maintain infrastructure consistency across environments.
-Outcome
-•	Reliable deployments 
-•	Improved collaboration 
-•	Consistent infrastructure state 
-________________________________________
-Key Engineering Takeaways
+
+### Outcome
+
+- Reliable deployments
+- Improved collaboration
+- Consistent infrastructure state
+
+---
+
+## Key Engineering Takeaways
+
 The implementation reinforced several important engineering principles:
-•	Automate infrastructure wherever possible. 
-•	Keep configuration external to application code. 
-•	Favor managed services to reduce operational complexity. 
-•	Validate infrastructure continuously through automated pipelines. 
-•	Design deployment processes to be repeatable and deterministic. 
-________________________________________
+
+- Automate infrastructure wherever possible.
+- Keep configuration external to application code.
+- Favor managed services to reduce operational complexity.
+- Validate infrastructure continuously through automated pipelines.
+- Design deployment processes to be repeatable and deterministic.
 
 
 # 15. Lessons Learned
+
 This project provided practical experience in designing, deploying, and operating an enterprise Retrieval-Augmented Generation (RAG) platform on AWS.
+
 Several key lessons emerged throughout the implementation.
-________________________________________
-Retrieval-Augmented Generation Improves Reliability
+
+---
+
+## Retrieval-Augmented Generation Improves Reliability
+
 Large language models become significantly more useful when responses are grounded in enterprise knowledge rather than relying exclusively on pretrained information.
+
 Semantic retrieval dramatically reduces hallucinations while improving answer consistency.
-________________________________________
-Infrastructure as Code Enables Repeatability
+
+---
+
+## Infrastructure as Code Enables Repeatability
+
 Terraform simplified infrastructure management by making every deployment reproducible and version controlled.
+
 Infrastructure became easier to review, modify, and recover.
-________________________________________
-Serverless Simplifies Operations
+
+---
+
+## Serverless Simplifies Operations
+
 Using AWS managed services eliminated infrastructure maintenance while providing automatic scaling and pay-per-use pricing.
+
 This allowed development efforts to focus on application functionality rather than server administration.
-________________________________________
-Security Should Be Designed In
+
+---
+
+## Security Should Be Designed In
+
 Implementing GitHub OIDC authentication, IAM least-privilege policies, and AWS KMS encryption from the beginning resulted in a more secure deployment pipeline without adding significant operational overhead.
-________________________________________
-Monitoring Is Essential
+
+---
+
+## Monitoring Is Essential
+
 Observability proved just as important as application functionality.
+
 CloudWatch dashboards, logs, and alarms enabled rapid troubleshooting throughout development and deployment.
-________________________________________
-Enterprise AI Requires More Than a Language Model
+
+---
+
+## Enterprise AI Requires More Than a Language Model
+
 Building a production AI platform involves much more than invoking a foundation model.
+
 Success depends on integrating knowledge retrieval, vector databases, Infrastructure as Code, deployment automation, monitoring, and secure operational practices into a cohesive architecture.
-________________________________________
+
+---
 
 # 16. Future Enhancements
+
 Although the current platform demonstrates a complete enterprise Retrieval-Augmented Generation solution, several enhancements could further extend its capabilities.
-Planned Enhancements
-Hybrid Search
+
+## Planned Enhancements
+
+### Hybrid Search
+
 Combine semantic vector search with traditional keyword search to improve retrieval accuracy for structured documents.
-________________________________________
-Metadata Filtering
+
+---
+
+### Metadata Filtering
+
 Support filtering by:
-•	Department 
-•	Document type 
-•	Policy version 
-•	Effective date 
-•	Business unit 
-________________________________________
-Authentication & Authorization
+
+- Department
+- Document type
+- Policy version
+- Effective date
+- Business unit
+
+---
+
+### Authentication & Authorization
+
 Integrate Amazon Cognito to provide authenticated user access, role-based permissions, and personalized conversations.
-________________________________________
-Streaming Responses
+
+---
+
+### Streaming Responses
+
 Support incremental response streaming to improve user experience during longer inference operations.
-________________________________________
-Administrative Dashboard
+
+---
+
+### Administrative Dashboard
+
 Develop a web-based administrative interface for managing documents, monitoring ingestion status, and viewing operational metrics.
-________________________________________
-Multi-Document Knowledge Bases
+
+---
+
+### Multi-Document Knowledge Bases
+
 Support multiple independent knowledge repositories for different departments or business domains.
-________________________________________
-Multi-Region Deployment
+
+---
+
+### Multi-Region Deployment
+
 Deploy across multiple AWS Regions to improve availability and disaster recovery.
-________________________________________
-Agentic AI Workflows
+
+---
+
+### Agentic AI Workflows
+
 Extend the platform to support autonomous task orchestration and tool use using emerging agentic AI patterns.
-________________________________________
-Automated Evaluation
+
+---
+
+### Automated Evaluation
+
 Introduce evaluation pipelines to measure retrieval quality, response accuracy, latency, and overall system performance.
-________________________________________
+
+---
 
 # 17. Demonstration
-The following resources provide an end-to-end demonstration of the Enterprise Refund AI Assistant.
-________________________________________
 
-Source Code
+The following resources provide an end-to-end demonstration of the Enterprise Refund AI Assistant.
+
+---
+
+## Source Code
+
 GitHub Repository:
+
 https://github.com/Tijani-Abagaro-GenAI-Cloud?tab=repositories
-________________________________________
-Video Demonstration
+
+---
+
+## Video Demonstration
+
 A walkthrough video demonstrates:
-•	Infrastructure deployment 
-•	Document upload 
-•	Automated ingestion 
-•	Semantic vector indexing 
-•	User interaction 
-•	Grounded response generation 
-•	Operational monitoring 
+
+- Infrastructure deployment
+- Document upload
+- Automated ingestion
+- Semantic vector indexing
+- User interaction
+- Grounded response generation
+- Operational monitoring
+
 LinkedIn:
+
 https://www.linkedin.com/in/tijani-abagaro-7b0975202/
 
 Youtube: comeing soon
 
-________________________________________
-Demonstrated Workflow
+---
+
+## Demonstrated Workflow
+
 The complete demonstration validates the following sequence:
-1.	Upload a policy document to Amazon S3. 
-2.	Trigger the automated ingestion pipeline. 
-3.	Extract and chunk document content. 
-4.	Generate vector embeddings. 
-5.	Index document vectors in Amazon OpenSearch Serverless. 
-6.	Submit a natural language question through the web interface. 
-7.	Perform semantic retrieval. 
-8.	Generate a grounded response using Amazon Nova Lite. 
-9.	Display the response and persist conversation history. 
+
+1. Upload a policy document to Amazon S3.
+2. Trigger the automated ingestion pipeline.
+3. Extract and chunk document content.
+4. Generate vector embeddings.
+5. Index document vectors in Amazon OpenSearch Serverless.
+6. Submit a natural language question through the web interface.
+7. Perform semantic retrieval.
+8. Generate a grounded response using Amazon Nova Lite.
+9. Display the response and persist conversation history.
+
 This end-to-end workflow demonstrates the complete lifecycle of enterprise knowledge ingestion and AI-assisted retrieval.
-________________________________________
+
+---
 
 # 18. Conclusion
-The Enterprise Refund AI Assistant demonstrates how modern cloud-native services can be combined to build a production-style Retrieval-Augmented Generation platform on AWS.
-By integrating Amazon Bedrock, Amazon OpenSearch Serverless, AWS Lambda, Amazon API Gateway, Amazon S3, Amazon DynamoDB, CloudFront, and Terraform, the project showcases the complete lifecycle of enterprise AI application development—from infrastructure provisioning and automated document ingestion to semantic retrieval, grounded response generation, secure deployment, and operational monitoring.
-Beyond implementing AI functionality, the project emphasizes engineering practices expected in enterprise environments, including Infrastructure as Code, event-driven architecture, secure CI/CD with GitHub OIDC, least-privilege security, automated monitoring, and repeatable deployments.
-The resulting platform illustrates how Retrieval-Augmented Generation can be applied to transform enterprise documentation into an intelligent, searchable knowledge base that delivers accurate, context-aware responses while remaining scalable, maintainable, and operationally robust.
-________________________________________
-Acknowledgements
-This project leverages a number of AWS managed services and open technologies that made its implementation possible.
-Special thanks to:
-•	Amazon Web Services (AWS) 
-•	Amazon Bedrock 
-•	Amazon OpenSearch Serverless 
-•	AWS Lambda 
-•	Amazon S3 
-•	Amazon API Gateway 
-•	Amazon CloudFront 
-•	Amazon DynamoDB 
-•	Amazon CloudWatch 
-•	Terraform by HashiCorp 
-•	GitHub Actions 
-•	Python OpenSearch Client 
-•	Boto3 AWS SDK 
-________________________________________
-Skills Demonstrated
-This project demonstrates practical experience across multiple domains relevant to enterprise cloud and AI engineering.
-Cloud Architecture
-•	AWS Solution Architecture 
-•	Serverless Architecture 
-•	Event-Driven Design 
-•	Infrastructure as Code (Terraform) 
-Generative AI
-•	Retrieval-Augmented Generation (RAG) 
-•	Semantic Vector Search 
-•	Amazon Bedrock 
-•	Titan Text Embeddings V2 
-•	Amazon Nova Lite 
-Cloud Engineering
-•	AWS Lambda 
-•	API Gateway 
-•	Amazon S3 
-•	OpenSearch Serverless 
-•	DynamoDB 
-•	CloudFront 
-DevOps
-•	GitHub Actions 
-•	OpenID Connect (OIDC) 
-•	CI/CD Automation 
-•	Infrastructure Validation 
-•	Deployment Automation 
-Security
-•	IAM Least Privilege 
-•	AWS KMS 
-•	Secure CI/CD 
-•	Encryption 
-•	Access Control 
-Operations
-•	CloudWatch Monitoring 
-•	Logging 
-•	Operational Dashboards 
-•	SNS Notifications 
-•	Troubleshooting 
-•	Production Readiness
 
+The Enterprise Refund AI Assistant demonstrates how modern cloud-native services can be combined to build a production-style Retrieval-Augmented Generation platform on AWS.
+
+By integrating Amazon Bedrock, Amazon OpenSearch Serverless, AWS Lambda, Amazon API Gateway, Amazon S3, Amazon DynamoDB, CloudFront, and Terraform, the project showcases the complete lifecycle of enterprise AI application development—from infrastructure provisioning and automated document ingestion to semantic retrieval, grounded response generation, secure deployment, and operational monitoring.
+
+Beyond implementing AI functionality, the project emphasizes engineering practices expected in enterprise environments, including Infrastructure as Code, event-driven architecture, secure CI/CD with GitHub OIDC, least-privilege security, automated monitoring, and repeatable deployments.
+
+The resulting platform illustrates how Retrieval-Augmented Generation can be applied to transform enterprise documentation into an intelligent, searchable knowledge base that delivers accurate, context-aware responses while remaining scalable, maintainable, and operationally robust.
+
+---
+
+## Acknowledgements
+
+This project leverages a number of AWS managed services and open technologies that made its implementation possible.
+
+Special thanks to:
+
+- Amazon Web Services (AWS)
+- Amazon Bedrock
+- Amazon OpenSearch Serverless
+- AWS Lambda
+- Amazon S3
+- Amazon API Gateway
+- Amazon CloudFront
+- Amazon DynamoDB
+- Amazon CloudWatch
+- Terraform by HashiCorp
+- GitHub Actions
+- Python OpenSearch Client
+- Boto3 AWS SDK
+
+---
+
+## Skills Demonstrated
+
+This project demonstrates practical experience across multiple domains relevant to enterprise cloud and AI engineering.
+
+### Cloud Architecture
+
+- AWS Solution Architecture
+- Serverless Architecture
+- Event-Driven Design
+- Infrastructure as Code (Terraform)
+
+### Generative AI
+
+- Retrieval-Augmented Generation (RAG)
+- Semantic Vector Search
+- Amazon Bedrock
+- Titan Text Embeddings V2
+- Amazon Nova Lite
+
+### Cloud Engineering
+
+- AWS Lambda
+- API Gateway
+- Amazon S3
+- OpenSearch Serverless
+- DynamoDB
+- CloudFront
+
+### DevOps
+
+- GitHub Actions
+- OpenID Connect (OIDC)
+- CI/CD Automation
+- Infrastructure Validation
+- Deployment Automation
+
+### Security
+
+- IAM Least Privilege
+- AWS KMS
+- Secure CI/CD
+- Encryption
+- Access Control
+
+### Operations
+
+- CloudWatch Monitoring
+- Logging
+- Operational Dashboards
+- SNS Notifications
+- Troubleshooting
+- Production Readiness
 
 ---
 
