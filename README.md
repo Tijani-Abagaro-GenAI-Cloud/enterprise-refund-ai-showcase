@@ -1287,15 +1287,15 @@ Benefits include:
 - Improved credential management
 - Alignment with AWS security best practices
 
-![ GitHub Actions](screenshots/10.4-github-actions-Deploy Infrastructure.png)
+![ GitHub Actions](screenshots/10.4-github-actions-Deploy-Infrastructure.png)
 
-![ GitHub Actions](screenshots/10.1-github-actions- Repository Overview.png)
+![ GitHub Actions](screenshots/10.1-github-actions-Repository-Overview.png)
 
 ![ GitHub Actions](screenshots/10.2-github-actions-Terraform.png)
 
 ![ GitHub Actions](screenshots/10.3-github-actions-Interprise-Architecture-Pipeline.png)
 
-![ GitHub Actions](screenshots/10.5.github-actions-Deploy Frontend.png)
+![ GitHub Actions](screenshots/10.5.github-actions-Deploy-Frontend.png)
 
 **Figure 18. GitHub Actions infrastructure deployment pipeline *
 
@@ -1636,7 +1636,7 @@ The following resources provide an end-to-end demonstration of the Enterprise Re
 
 GitHub Repository:
 
-https://github.com/Tijani-Abagaro-GenAI-Cloud?tab=repositories
+https://github.com/Tijani-Abagaro-GenAI-Cloud/enterprise-refund-ai-showcase
 
 ---
 
@@ -1766,14 +1766,14 @@ This project demonstrates practical experience across multiple domains relevant 
 - Production Readiness
 
 ---
-
 ## Author
 
 **Tijani Abagaro**
 
-**Principal AWS & AI Solutions Architect**
+**Principal AWS & AI Solutions Architect**  
 **AWS Certified Solutions Architect Professional**
-### Specializations:
+
+### Specializations
 
 - Enterprise Cloud Architecture
 - Generative AI & RAG
@@ -1782,15 +1782,15 @@ This project demonstrates practical experience across multiple domains relevant 
 - Terraform & Infrastructure as Code
 - DevSecOps & CI/CD
 
-**GitHub:** https://github.com/Tijani-Abagaro-GenAI-Cloud?tab=repositories
+**GitHub:** https://github.com/Tijani-Abagaro-GenAI-Cloud/enterprise-refund-ai-showcase
 
 **LinkedIn:** https://www.linkedin.com/in/tijani-abagaro-7b0975202/
 
 **Badges:** https://www.credly.com/users/tijani-abagaro/badges/credly
 
-**youtube** coming soon
+**YouTube:** coming soon
 
 ---
 
 If you found this project helpful, consider giving it a ⭐ on GitHub.
-
+```
