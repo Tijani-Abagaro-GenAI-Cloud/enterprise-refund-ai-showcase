@@ -79,183 +79,289 @@ Enterprise organizations maintain thousands of policy documents, operating proce
 This project demonstrates how to build a production-style enterprise AI platform that combines Retrieval-Augmented Generation (RAG) with modern AWS serverless services to deliver accurate, traceable, and context-aware responses grounded in organizational documents.
 The solution automatically ingests enterprise policy documents uploaded to Amazon S3, extracts and chunks document content, generates vector embeddings using Amazon Bedrock Titan Text Embeddings V2, stores embeddings in Amazon OpenSearch Serverless, and retrieves the most relevant context at query time. The retrieved context is combined with the user's question and submitted to Amazon Bedrock (Amazon Nova Lite) to generate a grounded response.
 The entire infrastructure is provisioned using Terraform and deployed through a secure GitHub Actions CI/CD pipeline with OpenID Connect (OIDC), eliminating the need for long-lived AWS credentials.
-________________________________________
-Key Capabilities
-•	Enterprise Retrieval-Augmented Generation (RAG) 
-•	Amazon Bedrock integration using Amazon Nova Lite 
-•	Titan Text Embeddings V2 for semantic vector generation 
-•	Amazon OpenSearch Serverless vector search 
-•	Automated document ingestion pipeline 
-•	PDF document processing and chunking 
-•	Event-driven architecture using Amazon S3 notifications 
-•	Fully serverless backend with AWS Lambda 
-•	Infrastructure as Code using Terraform 
-•	Secure GitHub Actions CI/CD with OIDC authentication 
-•	CloudFront-hosted responsive web application 
-•	End-to-end enterprise deployment on AWS 
-________________________________________
-Business Problem
-Large organizations rely on extensive collections of internal documentation, including refund policies, HR procedures, compliance manuals, and operational guidelines. Employees and customers often spend significant time searching for relevant information, while traditional chatbots frequently generate responses that are not grounded in official documentation.
-This leads to:
-•	Inconsistent customer responses 
-•	Increased support costs 
-•	Long information retrieval times 
-•	Risk of hallucinated AI responses 
-•	Difficulty maintaining knowledge consistency across the organization 
-The objective of this project is to demonstrate how enterprise AI systems can use Retrieval-Augmented Generation (RAG) to provide accurate, context-aware, and document-grounded responses while maintaining a scalable, serverless AWS architecture.
-________________________________________
 
-Solution Overview
+---
+
+## Key Capabilities
+
+- Enterprise Retrieval-Augmented Generation (RAG)
+- Amazon Bedrock integration using Amazon Nova Lite
+- Titan Text Embeddings V2 for semantic vector generation
+- Amazon OpenSearch Serverless vector search
+- Automated document ingestion pipeline
+- PDF document processing and chunking
+- Event-driven architecture using Amazon S3 notifications
+- Fully serverless backend with AWS Lambda
+- Infrastructure as Code using Terraform
+- Secure GitHub Actions CI/CD with OIDC authentication
+- CloudFront-hosted responsive web application
+- End-to-end enterprise deployment on AWS
+
+---
+
+## Business Problem
+
+Large organizations rely on extensive collections of internal documentation, including refund policies, HR procedures, compliance manuals, and operational guidelines. Employees and customers often spend significant time searching for relevant information, while traditional chatbots frequently generate responses that are not grounded in official documentation.
+
+This leads to:
+
+- Inconsistent customer responses
+- Increased support costs
+- Long information retrieval times
+- Risk of hallucinated AI responses
+- Difficulty maintaining knowledge consistency across the organization
+
+The objective of this project is to demonstrate how enterprise AI systems can use Retrieval-Augmented Generation (RAG) to provide accurate, context-aware, and document-grounded responses while maintaining a scalable, serverless AWS architecture.
+
+---
+
+## Solution Overview
+
 The Enterprise Refund AI Assistant implements a complete Retrieval-Augmented Generation workflow.
+
 During document ingestion, enterprise policy documents are uploaded to Amazon S3. An event notification triggers the ingestion Lambda function, which extracts document text, performs intelligent chunking, generates semantic embeddings using Amazon Bedrock Titan Text Embeddings V2, and stores both document metadata and vector representations in Amazon OpenSearch Serverless.
+
 During user interaction, customer questions are submitted through a CloudFront-hosted web application. The backend Lambda generates an embedding for the incoming question, performs semantic similarity search against OpenSearch Serverless, retrieves the most relevant document chunks, augments the prompt with enterprise context, and submits the enriched prompt to Amazon Bedrock (Amazon Nova Lite). The resulting answer is therefore grounded in enterprise documentation rather than relying solely on the language model's pretrained knowledge.
 
 # 2. Solution Architecture
+
 The Enterprise Refund AI Assistant is designed as a cloud-native, event-driven, Retrieval-Augmented Generation (RAG) platform built entirely on managed AWS services. The architecture separates the system into three logical views, each illustrating a different aspect of the solution.
-________________________________________
-1. Logical RAG Workflow
+
+---
+
+## 1. Logical RAG Workflow
+
 ![Logical RAG Workflow](architecture/Enterprise_AI_Assistant-Logical_Diagram.drawio.png)
 
 **Figure 1. Logical Retrieval-Augmented Generation Workflow**
+
 This diagram illustrates the conceptual Retrieval-Augmented Generation (RAG) workflow independent of any cloud provider.
+
 The workflow begins when a user submits a natural language question. Instead of sending the prompt directly to a Large Language Model, the application first retrieves semantically relevant information from the enterprise knowledge base using vector similarity search.
+
 The retrieved document context is then combined with the user's original question to create an augmented prompt. This enriched prompt is submitted to Amazon Nova Lite through Amazon Bedrock, enabling the model to generate responses grounded in enterprise documentation rather than relying solely on pretrained knowledge.
+
 This architecture significantly reduces hallucinations while improving answer accuracy, consistency, and explainability.
-________________________________________
-2. AWS Runtime Architecture
+
+---
+
+## 2. AWS Runtime Architecture
+
 ![AWS Runtime Architecture](architecture/enterprise-refund-ai-aws-runtime-architecture.png)
-**Figure 2. Enterprise Refund AI Assistant – AWS Runtime Architecture **
+
+**Figure 2. Enterprise Refund AI Assistant – AWS Runtime Architecture**
 
 The production implementation is fully serverless and leverages managed AWS services to provide scalability, operational simplicity, and cost efficiency.
+
 The runtime architecture is organized into several logical layers:
-Presentation Layer
+
+### Presentation Layer
+
 The web application is hosted on Amazon S3 and globally distributed using Amazon CloudFront. CloudFront provides HTTPS delivery, low-latency access, and edge caching for static frontend assets.
-API Layer
+
+### API Layer
+
 User requests are routed through Amazon API Gateway, which exposes secure REST endpoints consumed by the frontend application.
-Compute Layer
+
+### Compute Layer
+
 AWS Lambda serves as the RAG orchestrator. The Ask Lambda function coordinates the complete inference workflow by:
-•	Receiving user questions 
-•	Generating query embeddings 
-•	Executing vector similarity searches 
-•	Constructing the augmented prompt 
-•	Invoking Amazon Bedrock 
-•	Returning grounded responses 
+
+- Receiving user questions
+- Generating query embeddings
+- Executing vector similarity searches
+- Constructing the augmented prompt
+- Invoking Amazon Bedrock
+- Returning grounded responses
+
 Because Lambda is fully managed, the application automatically scales based on incoming request volume without requiring server management.
-Knowledge Layer
+
+### Knowledge Layer
+
 Amazon OpenSearch Serverless acts as the enterprise vector database.
+
 Each document chunk generated during ingestion is stored alongside its corresponding embedding, enabling semantic retrieval through approximate nearest-neighbor vector search.
-AI Layer
+
+### AI Layer
+
 Amazon Bedrock provides access to fully managed foundation models.
+
 The application uses:
-•	Titan Text Embeddings V2 for generating 1024-dimensional vector embeddings during document ingestion and query processing. 
-•	Amazon Nova Lite for grounded natural language response generation using the augmented prompt. 
-Database Layer
+
+- Titan Text Embeddings V2 for generating 1024-dimensional vector embeddings during document ingestion and query processing.
+- Amazon Nova Lite for grounded natural language response generation using the augmented prompt.
+
+### Database Layer
+
 Amazon DynamoDB stores conversational session history, allowing the assistant to preserve context across multiple interactions while maintaining a fully serverless architecture.
-Security & Observability
+
+### Security & Observability
+
 Operational visibility and security are provided through:
-•	AWS Identity and Access Management (IAM) for least-privilege access control 
-•	AWS Key Management Service (KMS) for encryption 
-•	Amazon CloudWatch for centralized logging, monitoring, and operational diagnostics 
-________________________________________
-3. Document Ingestion Pipeline
+
+- AWS Identity and Access Management (IAM) for least-privilege access control
+- AWS Key Management Service (KMS) for encryption
+- Amazon CloudWatch for centralized logging, monitoring, and operational diagnostics
+
+---
+
+## 3. Document Ingestion Pipeline
+
 ![Document Ingestion Architecture](architecture/enterprise-refund-ai-document-ingestion-pipeline.png)
+
 **Figure 3. Enterprise Refund AI Assistant- Event-Driven Document Ingestion Pipeline**
+
 The ingestion pipeline transforms enterprise documents into searchable semantic knowledge without requiring manual intervention.
+
 The workflow consists of the following stages:
-Step 1 — Document Upload
+
+### Step 1 — Document Upload
+
 Enterprise policy documents are uploaded to an Amazon S3 document repository.
-Step 2 — Event Notification
+
+### Step 2 — Event Notification
+
 Amazon S3 Event Notifications automatically trigger the ingestion Lambda whenever a supported document is uploaded.
-Step 3 — Text Extraction
+
+### Step 3 — Text Extraction
+
 The ingestion Lambda extracts raw textual content from the uploaded document while preserving logical document structure.
-Step 4 — Intelligent Chunking
+
+### Step 4 — Intelligent Chunking
+
 Extracted text is segmented into overlapping chunks using a configurable chunking strategy.
+
 For this implementation:
-•	Chunk size: 1,000 characters 
-•	Overlap: 200 characters 
+
+- Chunk size: 1,000 characters
+- Overlap: 200 characters
+
 This approach improves semantic retrieval by preserving contextual continuity across adjacent chunks.
-Step 5 — Embedding Generation
+
+### Step 5 — Embedding Generation
+
 Each document chunk is converted into a 1024-dimensional vector representation using Amazon Bedrock Titan Text Embeddings V2.
-Step 6 — Vector Indexing
+
+### Step 6 — Vector Indexing
+
 The generated embeddings, along with associated metadata and document content, are stored in Amazon OpenSearch Serverless.
+
 Once indexed, the knowledge base becomes immediately available for semantic retrieval by the Ask Lambda during user interactions.
-________________________________________
-Architecture Design Principles
+
+---
+
+### Architecture Design Principles
+
 Several architectural principles guided the implementation of this solution:
-•	Serverless First – All compute components use fully managed AWS services, eliminating infrastructure management. 
-•	Event-Driven Processing – Document ingestion is automatically triggered through Amazon S3 events. 
-•	Infrastructure as Code – All cloud resources are provisioned using Terraform, ensuring repeatable and version-controlled deployments. 
-•	Security by Default – IAM least-privilege policies, encryption through AWS KMS, and secure GitHub OIDC authentication are used throughout the deployment pipeline. 
-•	Modular Design – The solution separates presentation, compute, knowledge, AI, and data layers to improve maintainability and extensibility. 
-•	Scalable Retrieval – OpenSearch Serverless enables efficient vector search while Amazon Bedrock provides fully managed foundation model access without managing inference infrastructure. 
+
+- **Serverless First** – All compute components use fully managed AWS services, eliminating infrastructure management.
+- **Event-Driven Processing** – Document ingestion is automatically triggered through Amazon S3 events.
+- **Infrastructure as Code** – All cloud resources are provisioned using Terraform, ensuring repeatable and version-controlled deployments.
+- **Security by Default** – IAM least-privilege policies, encryption through AWS KMS, and secure GitHub OIDC authentication are used throughout the deployment pipeline.
+- **Modular Design** – The solution separates presentation, compute, knowledge, AI, and data layers to improve maintainability and extensibility.
+- **Scalable Retrieval** – OpenSearch Serverless enables efficient vector search while Amazon Bedrock provides fully managed foundation model access without managing inference infrastructure.
 
 
 # 3. Technology Stack
+
 The Enterprise Refund AI Assistant is built using a fully serverless, cloud-native architecture on AWS. The solution combines Retrieval-Augmented Generation (RAG), event-driven processing, Infrastructure as Code (IaC), and enterprise DevOps practices to demonstrate a production-style Generative AI platform.
+
 Rather than serving as a simple chatbot, the platform automates the complete lifecycle of enterprise knowledge—from document ingestion and semantic indexing to grounded response generation and operational monitoring.
+
+---
+
+## Artificial Intelligence
+
+| Service | Purpose |
+|---------|---------|
+| Amazon Bedrock | Managed Generative AI platform |
+| Amazon Nova Lite | Response generation |
+| Titan Text Embeddings V2 | 1024-dimensional vector embedding generation |
+| Amazon OpenSearch Serverless | Vector similarity search |
+
+---
+
+## Compute Layer
+
+| Service | Purpose |
+|---------|---------|
+| AWS Lambda (Ask) | RAG orchestration and inference |
+| AWS Lambda (Ingest) | Document processing and indexing |
+| AWS Lambda (Admin) | Administrative operations and system management |
+| Amazon API Gateway | REST API endpoints |
+
+---
+
+## Storage Layer
+
+| Service | Purpose |
+|---------|---------|
+| Amazon S3 | Static frontend hosting and document repository |
+| Amazon DynamoDB (Conversation) | Chat session persistence |
+| Amazon DynamoDB (Chunk Metadata) | Document chunk metadata |
+| Amazon DynamoDB (Analytics) | Operational analytics |
+| Amazon OpenSearch Serverless | Enterprise vector index |
+
+---
+
+## Networking
+
+| Service | Purpose |
+|---------|---------|
+| Amazon CloudFront | Global CDN |
+| Amazon API Gateway | Public API endpoint |
+
+---
+
+## Security
+
+| Service | Purpose |
+|---------|---------|
+| AWS IAM | Least-privilege access control |
+| AWS KMS | Encryption |
+| GitHub OIDC | Passwordless CI/CD authentication |
+
+---
+
+## Monitoring & Operations
+
+| Service | Purpose |
+|---------|---------|
+| Amazon CloudWatch Logs | Lambda logging |
+| CloudWatch Dashboard | Operational visibility |
+| CloudWatch Alarms | Health monitoring |
+| Amazon SNS | Operational notifications |
+
+---
+
+## DevOps
+
+| Technology | Purpose |
+|-----------|---------|
+| Terraform | Infrastructure as Code |
+| GitHub Actions | CI/CD |
+| Git | Source control |
+| OIDC Federation | Secure AWS deployments |
+
+
+
+
 ________________________________________
-Artificial Intelligence
-Service	Purpose
-Amazon Bedrock	Managed Generative AI platform
-Amazon Nova Lite	Response generation
-Titan Text Embeddings V2	1024-dimensional vector embedding generation
-Amazon OpenSearch Serverless	Vector similarity search
-________________________________________
-Compute Layer
-Service	Purpose
-AWS Lambda (Ask)	RAG orchestration and inference
-AWS Lambda (Ingest)	Document processing and indexing
-AWS Lambda (Admin)	Administrative operations and system management
-Amazon API Gateway	REST API endpoints
-________________________________________
-Storage Layer
-Service	Purpose
-Amazon S3	Static frontend hosting and document repository
-Amazon DynamoDB (Conversation)	Chat session persistence
-Amazon DynamoDB (Chunk Metadata)	Document chunk metadata
-Amazon DynamoDB (Analytics)	Operational analytics
-Amazon OpenSearch Serverless	Enterprise vector index
-________________________________________
-Networking
-Service	Purpose
-Amazon CloudFront	Global CDN
-Amazon API Gateway	Public API endpoint
-________________________________________
-Security
-Service	Purpose
-AWS IAM	Least-privilege access control
-AWS KMS	Encryption
-GitHub OIDC	Passwordless CI/CD authentication
-________________________________________
-Monitoring & Operations
-Service	Purpose
-Amazon CloudWatch Logs	Lambda logging
-CloudWatch Dashboard	Operational visibility
-CloudWatch Alarms	Health monitoring
-Amazon SNS	Operational notifications
-________________________________________
-DevOps
-Technology	Purpose
-Terraform	Infrastructure as Code
-GitHub Actions	CI/CD
-Git	Source control
-OIDC Federation	Secure AWS deployments
-________________________________________
-Programming Languages
+## Programming Languages
 •	Python 3.12 
 •	JavaScript 
 •	HTML5 
 •	CSS3 
 •	Terraform (HCL) 
 ________________________________________
-Python Libraries
+## Python Libraries
 •	boto3 
 •	opensearch-py 
 •	requests-aws4auth 
 •	pypdf 
 •	requests 
 ________________________________________
-Enterprise Capabilities
+## Enterprise Capabilities
 The platform implements several enterprise-grade capabilities beyond standard Retrieval-Augmented Generation.
 •	Semantic document retrieval 
 •	Automated vector indexing 
@@ -268,24 +374,24 @@ The platform implements several enterprise-grade capabilities beyond standard Re
 •	Secure CI/CD using OIDC 
 •	Infrastructure bootstrap automation 
 ________________________________________
-Design Principles
+## Design Principles
 The architecture follows several engineering principles that guided the implementation.
 Serverless First
 Every compute workload is implemented using fully managed AWS services, minimizing operational overhead while providing automatic scalability.
 ________________________________________
-Event-Driven Architecture
+## Event-Driven Architecture
 The platform reacts automatically to document uploads through Amazon S3 Event Notifications, eliminating manual ingestion processes.
 ________________________________________
-Retrieval-Augmented Generation
+## Retrieval-Augmented Generation
 Enterprise knowledge is retrieved dynamically from OpenSearch Serverless before invoking the foundation model, ensuring responses remain grounded in authoritative documentation.
 ________________________________________
-Infrastructure as Code
+## Infrastructure as Code
 Every AWS resource is provisioned and managed using Terraform, enabling reproducible deployments and version-controlled infrastructure changes.
 ________________________________________
-Security by Design
+## Security by Design
 Security is integrated throughout the platform using IAM least-privilege policies, AWS KMS encryption, GitHub OIDC authentication, and managed AWS services.
 ________________________________________
-Operational Excellence
+## Operational Excellence
 CloudWatch dashboards, alarms, analytics tables, and SNS notifications provide visibility into system health and operational events.
 ________________________________________
 
