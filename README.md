@@ -1,8 +1,8 @@
 # Enterprise Refund AI Assistant
 
-## Enterprise Retrieval-Augmented Generation (RAG) Platform on AWS
+## Enterprise AI Knowledge Platform with Retrieval-Augmented Generation (RAG) on AWS
 
-**Production-Style Generative AI Solution Using Amazon Bedrock, Amazon OpenSearch Serverless, Terraform, GitHub Actions, and Serverless Architecture**
+**Production-Ready Enterprise Generative AI Platform Using Amazon Bedrock, Amazon OpenSearch Serverless, Terraform, GitHub Actions, and Serverless Architecture**
 
 ![AWS](https://img.shields.io/badge/AWS-Cloud-orange)
 ![Terraform](https://img.shields.io/badge/Terraform-IaC-623CE4)
@@ -14,27 +14,28 @@
 
 ---
 
-### Enterprise Architecture • Retrieval-Augmented Generation • Amazon Bedrock • OpenSearch Serverless • Terraform • GitHub Actions • AWS Lambda • Serverless AI
+### Enterprise AI Platform • Retrieval-Augmented Generation • Amazon Bedrock • OpenSearch Serverless • Terraform • GitHub Actions • AWS Lambda • Serverless Architecture
 
 ![AWS Runtime Architecture](architecture/enterprise-refund-ai-aws-runtime-architecture.png)
 
 **Figure 0. Enterprise Refund AI Assistant – AWS Runtime Architecture**
 
-An enterprise-grade, serverless Retrieval-Augmented Generation (RAG) platform that transforms enterprise policy documents into an intelligent knowledge assistant using Amazon Bedrock, OpenSearch Serverless, AWS Lambda, and Infrastructure as Code with Terraform.
+An enterprise-grade, serverless AI knowledge platform that transforms enterprise documentation into trusted conversational intelligence using Retrieval-Augmented Generation (RAG). Built with Amazon Bedrock, Amazon OpenSearch Serverless, AWS Lambda, Amazon API Gateway, Amazon S3, Amazon DynamoDB, CloudFront, and Terraform, the solution demonstrates how organizations can build scalable, secure, and production-ready Generative AI applications grounded in approved enterprise knowledge.
 
 ## Key Achievements
 
-- ✅ Fully serverless AWS architecture
-- ✅ Enterprise Retrieval-Augmented Generation (RAG)
+- ✅ Enterprise-grade serverless AWS architecture
+- ✅ Production-ready Retrieval-Augmented Generation (RAG) implementation
 - ✅ Semantic vector search with Amazon OpenSearch Serverless
 - ✅ Amazon Titan Text Embeddings V2 integration
 - ✅ Amazon Nova Lite foundation model
-- ✅ Automated PDF document ingestion
-- ✅ Event-driven architecture with Amazon S3 and AWS Lambda
-- ✅ Infrastructure as Code using Terraform
-- ✅ Secure GitHub Actions CI/CD with OIDC
+- ✅ Automated PDF document ingestion pipeline
+- ✅ Event-driven architecture using Amazon S3 and AWS Lambda
+- ✅ Infrastructure as Code (IaC) using Terraform
+- ✅ Secure GitHub Actions CI/CD with OpenID Connect (OIDC)
+- ✅ Least-privilege IAM security architecture
 - ✅ CloudWatch monitoring and observability
-- ✅ Production-style enterprise deployment
+- ✅ Repeatable, automated enterprise deployments
 
 ## Solution Overview
 
