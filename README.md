@@ -1711,7 +1711,7 @@ LinkedIn:
 
 https://www.linkedin.com/in/tijani-abagaro-7b0975202/
 
-Youtube: comeing soon
+Youtube: https://www.youtube.com/watch?v=OCUfAaRI8Ng&t=83s
 
 ---
 
@@ -1845,7 +1845,7 @@ This project demonstrates practical experience across multiple domains relevant 
 
 **Badges:** https://www.credly.com/users/tijani-abagaro/badges/credly
 
-**YouTube:** coming soon
+**YouTube:** https://www.youtube.com/watch?v=OCUfAaRI8Ng&t=83s
 
 ---
 
