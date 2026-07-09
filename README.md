@@ -1849,5 +1849,5 @@ This project demonstrates practical experience across multiple domains relevant 
 
 ---
 
-If you found this project helpful, consider giving it a ⭐ on GitHub.
+If you find this project useful, I'd appreciate your feedback, suggestions, or a ⭐ on GitHub.
 ```
